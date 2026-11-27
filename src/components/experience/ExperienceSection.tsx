@@ -83,9 +83,15 @@ function DeliveredSystemsList({ projectIds }: { projectIds: string[] }) {
  * Every dot and stem is positioned inside this same container so the dots
  * sit 100% on the SVG Bezier path at every desktop viewport width.
  */
-function DesktopWaveTrack() {
+type MilestoneId = 'bsc' | 'mca' | 'exp' | null
+
+function DesktopWaveTrack({ hoveredId }: { hoveredId: MilestoneId }) {
   const wavePath =
     'M 0,52 C 70,52 110,20 189,20 C 330,20 460,84 600,84 C 740,84 870,20 1011,20 C 1090,20 1130,52 1200,52'
+
+  const bscActive = hoveredId === 'bsc'
+  const mcaActive = hoveredId === 'mca'
+  const expActive = hoveredId === 'exp'
 
   return (
     <div className="hidden lg:block relative w-full h-[104px] pointer-events-none select-none" aria-hidden="true">
@@ -131,17 +137,35 @@ function DesktopWaveTrack() {
         className="absolute top-0 bottom-0 -translate-x-1/2 flex flex-col items-center"
         style={{ left: '15.78%' }}
       >
-        <div className="w-px h-[20px] bg-gradient-to-b from-border-hover to-text-muted/70" />
+        <div
+          className={`w-px h-[20px] transition-colors duration-300 ${
+            bscActive
+              ? 'bg-gradient-to-b from-text-primary/80 to-text-primary'
+              : 'bg-gradient-to-b from-border-hover to-text-muted/70'
+          }`}
+        />
         <m.div
           initial={{ scale: 0, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.35, delay: 0.25, ease: [0.16, 1, 0.3, 1] as const }}
-          className="-mt-3 flex items-center justify-center w-6 h-6 rounded-full bg-bg border-2 border-border-hover"
+          className={`-mt-3 flex items-center justify-center w-6 h-6 rounded-full bg-bg border-2 transition-all duration-300 ${
+            bscActive
+              ? 'scale-125 border-text-primary shadow-[0_0_20px_rgba(245,245,245,0.28)]'
+              : 'border-border-hover'
+          }`}
         >
-          <span className="w-2 h-2 rounded-full bg-text-secondary" />
+          <span
+            className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+              bscActive ? 'bg-text-primary' : 'bg-text-secondary'
+            }`}
+          />
         </m.div>
-        <span className="mt-2 font-mono text-[10px] tracking-widest text-text-faint uppercase">
+        <span
+          className={`mt-2 font-mono text-[10px] tracking-widest uppercase transition-colors duration-300 ${
+            bscActive ? 'text-text-primary' : 'text-text-faint'
+          }`}
+        >
           FOUNDATIONAL
         </span>
       </div>
@@ -151,7 +175,11 @@ function DesktopWaveTrack() {
         className="absolute top-0 bottom-0 -translate-x-1/2 flex flex-col items-center justify-end"
         style={{ left: '50%' }}
       >
-        <span className="mb-2 font-mono text-[10px] tracking-widest text-text-faint uppercase">
+        <span
+          className={`mb-2 font-mono text-[10px] tracking-widest uppercase transition-colors duration-300 ${
+            mcaActive ? 'text-text-primary' : 'text-text-faint'
+          }`}
+        >
           POSTGRADUATE
         </span>
         <m.div
@@ -159,11 +187,25 @@ function DesktopWaveTrack() {
           whileInView={{ scale: 1, opacity: 1 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.35, delay: 0.55, ease: [0.16, 1, 0.3, 1] as const }}
-          className="-mb-3 relative z-10 flex items-center justify-center w-6 h-6 rounded-full bg-bg border-2 border-border-hover"
+          className={`-mb-3 relative z-10 flex items-center justify-center w-6 h-6 rounded-full bg-bg border-2 transition-all duration-300 ${
+            mcaActive
+              ? 'scale-125 border-text-primary shadow-[0_0_20px_rgba(245,245,245,0.28)]'
+              : 'border-border-hover'
+          }`}
         >
-          <span className="w-2 h-2 rounded-full bg-text-secondary" />
+          <span
+            className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+              mcaActive ? 'bg-text-primary' : 'bg-text-secondary'
+            }`}
+          />
         </m.div>
-        <div className="w-px h-[20px] bg-gradient-to-b from-text-muted/70 to-border-hover" />
+        <div
+          className={`w-px h-[20px] transition-colors duration-300 ${
+            mcaActive
+              ? 'bg-gradient-to-b from-text-primary to-text-primary/80'
+              : 'bg-gradient-to-b from-text-muted/70 to-border-hover'
+          }`}
+        />
       </div>
 
       {/* ── Node 03: COMMERCIAL (on Crest 2: left 84.22%, top 20px) ── */}
@@ -171,17 +213,31 @@ function DesktopWaveTrack() {
         className="absolute top-0 bottom-0 -translate-x-1/2 flex flex-col items-center"
         style={{ left: '84.22%' }}
       >
-        <div className="w-px h-[20px] bg-gradient-to-b from-border-hover to-text-primary/80" />
+        <div
+          className={`w-px h-[20px] transition-colors duration-300 ${
+            expActive
+              ? 'bg-gradient-to-b from-text-primary to-text-primary'
+              : 'bg-gradient-to-b from-border-hover to-text-primary/80'
+          }`}
+        />
         <m.div
           initial={{ scale: 0, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.35, delay: 0.85, ease: [0.16, 1, 0.3, 1] as const }}
-          className="-mt-3.5 flex items-center justify-center w-7 h-7 rounded-full bg-bg border-2 border-text-primary shadow-[0_0_16px_rgba(245,245,245,0.16)]"
+          className={`-mt-3.5 flex items-center justify-center w-7 h-7 rounded-full bg-bg border-2 border-text-primary transition-all duration-300 ${
+            expActive
+              ? 'scale-125 shadow-[0_0_24px_rgba(245,245,245,0.35)]'
+              : 'shadow-[0_0_16px_rgba(245,245,245,0.16)]'
+          }`}
         >
           <span className="w-2 h-2 rounded-full bg-text-primary animate-pulse-dot" />
         </m.div>
-        <span className="mt-2 font-mono text-[10px] tracking-widest text-text-secondary uppercase">
+        <span
+          className={`mt-2 font-mono text-[10px] tracking-widest uppercase transition-colors duration-300 ${
+            expActive ? 'text-text-primary' : 'text-text-secondary'
+          }`}
+        >
           COMMERCIAL
         </span>
       </div>
@@ -221,6 +277,7 @@ function MobileNodeRail({
 /* ─────────────────────── main section ────────────────────────────── */
 
 export function ExperienceSection() {
+  const [hoveredId, setHoveredId] = useState<MilestoneId>(null)
   const mobileRailRef = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress: mobileProgress } = useScroll({
@@ -289,7 +346,9 @@ export function ExperienceSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as const }}
-                  className="p-5 rounded-lg border border-border-rest bg-surface-low hover:border-border-hover hover:-translate-y-0.5 transition-all duration-base shadow-xl"
+                  onMouseEnter={() => setHoveredId('bsc')}
+                  onMouseLeave={() => setHoveredId(null)}
+                  className="p-5 rounded-lg border border-border-rest bg-surface-low hover:border-text-secondary/60 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(0,0,0,0.55)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-xl origin-bottom"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
                     <span className="label-caps text-text-faint">01 // FOUNDATION</span>
@@ -330,7 +389,9 @@ export function ExperienceSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] as const }}
-                  className="relative p-5 rounded-lg border border-border-hover bg-surface-low hover:border-text-muted/60 hover:-translate-y-0.5 transition-all duration-base shadow-2xl"
+                  onMouseEnter={() => setHoveredId('exp')}
+                  onMouseLeave={() => setHoveredId(null)}
+                  className="relative p-5 rounded-lg border border-border-hover bg-surface-low hover:border-text-primary/70 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(0,0,0,0.65)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-2xl origin-bottom"
                 >
                   <div
                     className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-border-hover via-text-primary/80 to-border-hover rounded-t-lg"
@@ -378,7 +439,7 @@ export function ExperienceSection() {
           </div>
 
           {/* Middle Row: S-Curve Wave with 3 Milestone Dots locked directly onto the path */}
-          <DesktopWaveTrack />
+          <DesktopWaveTrack hoveredId={hoveredId} />
 
           {/* Bottom Row: Col 2 (MCA) flush below Node 02's stem */}
           <div className="grid grid-cols-3 gap-8">
@@ -390,7 +451,9 @@ export function ExperienceSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.5, delay: 0.12, ease: [0.16, 1, 0.3, 1] as const }}
-                  className="p-5 rounded-lg border border-border-rest bg-surface-low hover:border-border-hover hover:-translate-y-0.5 transition-all duration-base shadow-xl"
+                  onMouseEnter={() => setHoveredId('mca')}
+                  onMouseLeave={() => setHoveredId(null)}
+                  className="p-5 rounded-lg border border-border-rest bg-surface-low hover:border-text-secondary/60 hover:scale-[1.02] hover:translate-y-1 hover:shadow-[0_16px_40px_rgba(0,0,0,0.55)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-xl origin-top"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
                     <span className="label-caps text-text-faint">02 // SPECIALIZATION</span>
