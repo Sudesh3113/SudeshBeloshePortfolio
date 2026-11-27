@@ -374,9 +374,9 @@ export function ExperienceSection() {
                   onMouseEnter={() => setHoveredId('bsc')}
                   onMouseLeave={() => setHoveredId(null)}
                   style={{ transformOrigin: 'bottom center' }}
-                  className={`p-5 rounded-lg border transition-colors duration-300 ${
+                  className={`p-5 rounded-lg border transition-all duration-300 ${
                     hoveredId === 'bsc'
-                      ? 'border-text-primary/60 bg-surface-card shadow-[0_20px_50px_rgba(0,0,0,0.65),0_0_24px_rgba(245,245,245,0.06)]'
+                      ? 'border-text-muted/60 bg-surface-card shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_20px_48px_rgba(0,0,0,0.65),0_0_32px_rgba(245,245,245,0.05)]'
                       : 'border-border-rest bg-surface-low shadow-xl'
                   }`}
                 >
@@ -423,9 +423,9 @@ export function ExperienceSection() {
                   onMouseEnter={() => setHoveredId('exp')}
                   onMouseLeave={() => setHoveredId(null)}
                   style={{ transformOrigin: 'bottom center' }}
-                  className={`relative p-5 rounded-lg border transition-colors duration-300 ${
+                  className={`relative p-5 rounded-lg border transition-all duration-300 ${
                     hoveredId === 'exp'
-                      ? 'border-text-primary/80 bg-surface-card shadow-[0_24px_56px_rgba(0,0,0,0.7),0_0_28px_rgba(245,245,245,0.09)]'
+                      ? 'border-text-muted/75 bg-surface-card shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_24px_56px_rgba(0,0,0,0.7),0_0_36px_rgba(245,245,245,0.07)]'
                       : 'border-border-hover bg-surface-low shadow-2xl'
                   }`}
                 >
@@ -491,9 +491,9 @@ export function ExperienceSection() {
                   onMouseEnter={() => setHoveredId('mca')}
                   onMouseLeave={() => setHoveredId(null)}
                   style={{ transformOrigin: 'top center' }}
-                  className={`p-5 rounded-lg border transition-colors duration-300 ${
+                  className={`p-5 rounded-lg border transition-all duration-300 ${
                     hoveredId === 'mca'
-                      ? 'border-text-primary/60 bg-surface-card shadow-[0_20px_50px_rgba(0,0,0,0.65),0_0_24px_rgba(245,245,245,0.06)]'
+                      ? 'border-text-muted/60 bg-surface-card shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_20px_48px_rgba(0,0,0,0.65),0_0_32px_rgba(245,245,245,0.05)]'
                       : 'border-border-rest bg-surface-low shadow-xl'
                   }`}
                 >
@@ -581,9 +581,9 @@ export function ExperienceSection() {
                     whileTap={{ scale: 0.985 }}
                     transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as const }}
                     onClick={() => setSelectedMobileId(prev => (prev === 'bsc' ? null : 'bsc'))}
-                    className={`cursor-pointer p-4 rounded-lg border transition-colors duration-300 ${
+                    className={`cursor-pointer p-4 rounded-lg border transition-all duration-300 ${
                       selectedMobileId === 'bsc'
-                        ? 'border-text-primary/70 bg-surface-card shadow-[0_14px_36px_rgba(0,0,0,0.6),0_0_24px_rgba(245,245,245,0.08)]'
+                        ? 'border-text-muted/60 bg-surface-card shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_16px_40px_rgba(0,0,0,0.6),0_0_28px_rgba(245,245,245,0.05)]'
                         : 'border-border-rest bg-surface-low'
                     }`}
                   >
@@ -625,9 +625,9 @@ export function ExperienceSection() {
                     whileTap={{ scale: 0.985 }}
                     transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as const }}
                     onClick={() => setSelectedMobileId(prev => (prev === 'mca' ? null : 'mca'))}
-                    className={`cursor-pointer p-4 rounded-lg border transition-colors duration-300 ${
+                    className={`cursor-pointer p-4 rounded-lg border transition-all duration-300 ${
                       selectedMobileId === 'mca'
-                        ? 'border-text-primary/70 bg-surface-card shadow-[0_14px_36px_rgba(0,0,0,0.6),0_0_24px_rgba(245,245,245,0.08)]'
+                        ? 'border-text-muted/60 bg-surface-card shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_16px_40px_rgba(0,0,0,0.6),0_0_28px_rgba(245,245,245,0.05)]'
                         : 'border-border-rest bg-surface-low'
                     }`}
                   >
@@ -669,9 +669,9 @@ export function ExperienceSection() {
                     whileTap={{ scale: 0.985 }}
                     transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as const }}
                     onClick={() => setSelectedMobileId(prev => (prev === 'exp' ? null : 'exp'))}
-                    className={`cursor-pointer relative p-4 rounded-lg border transition-colors duration-300 ${
+                    className={`cursor-pointer relative p-4 rounded-lg border transition-all duration-300 ${
                       selectedMobileId === 'exp'
-                        ? 'border-text-primary/85 bg-surface-card shadow-[0_16px_40px_rgba(0,0,0,0.68),0_0_28px_rgba(245,245,245,0.1)]'
+                        ? 'border-text-muted/75 bg-surface-card shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_18px_44px_rgba(0,0,0,0.65),0_0_32px_rgba(245,245,245,0.07)]'
                         : 'border-border-hover bg-surface-low'
                     }`}
                   >
