@@ -1,24 +1,35 @@
+import { useRef } from 'react'
+import { m, useScroll, useTransform } from 'framer-motion'
 import panoramaImg from '../../assets/panorama.png'
 
 const CURRENT_YEAR = new Date().getFullYear()
 
 export function PanoramaFooter() {
+  const footerRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: footerRef,
+    offset: ['start end', 'end end'],
+  })
+  const watermarkY = useTransform(scrollYProgress, [0, 1], [-24, 16])
+
   return (
     <footer
+      ref={footerRef}
       className="relative overflow-hidden bg-footer-bg pt-10 sm:pt-14 pb-8"
       aria-label="Signature footer"
       style={{ color: 'var(--color-footer-text)' }}
     >
-      {/* Edge-to-Edge SUDESH Watermark */}
+      {/* Edge-to-Edge SUDESH Watermark with subtle scroll parallax */}
       <div
         className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none select-none z-0 overflow-hidden"
         aria-hidden="true"
       >
-        <span
+        <m.span
+          style={{ y: watermarkY }}
           className="text-[18vw] leading-none font-black tracking-tighter uppercase whitespace-nowrap text-[#121212]/[0.04]"
         >
           SUDESH
-        </span>
+        </m.span>
       </div>
 
       <div className="relative z-10 w-full flex flex-col items-center">
