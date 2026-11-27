@@ -250,25 +250,45 @@ function DesktopWaveTrack({ hoveredId }: { hoveredId: MilestoneId }) {
 function MobileNodeRail({
   isLast = false,
   isActive = false,
+  highlighted = false,
+  delay = 0,
 }: {
   isLast?: boolean
   isActive?: boolean
+  highlighted?: boolean
+  delay?: number
 }) {
   return (
     <div className="lg:hidden relative flex flex-col items-center pt-1.5 shrink-0" aria-hidden="true">
-      <div
-        className={`relative flex items-center justify-center w-4 h-4 rounded-full border bg-bg ${
-          isActive ? 'border-text-primary' : 'border-border-hover'
+      <m.div
+        initial={{ scale: 0, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.3, delay, ease: [0.16, 1, 0.3, 1] as const }}
+        className={`relative flex items-center justify-center w-5 h-5 rounded-full border-2 bg-bg transition-all duration-300 ${
+          highlighted
+            ? 'scale-125 border-text-primary shadow-[0_0_18px_rgba(245,245,245,0.3)]'
+            : isActive
+              ? 'border-text-primary shadow-[0_0_12px_rgba(245,245,245,0.14)]'
+              : 'border-border-hover'
         }`}
       >
         <span
-          className={`w-1.5 h-1.5 rounded-full ${
-            isActive ? 'bg-text-primary animate-pulse-dot' : 'bg-text-muted'
+          className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${
+            highlighted || isActive
+              ? `bg-text-primary ${isActive ? 'animate-pulse-dot' : ''}`
+              : 'bg-text-muted'
           }`}
         />
-      </div>
+      </m.div>
       {!isLast && (
-        <div className="flex-1 w-px bg-gradient-to-b from-border-hover via-border-rest to-border-rest/30 mt-2" />
+        <div
+          className={`flex-1 w-px mt-2 transition-colors duration-300 ${
+            highlighted
+              ? 'bg-gradient-to-b from-text-primary/80 via-border-hover to-border-rest/30'
+              : 'bg-gradient-to-b from-border-hover via-border-rest to-border-rest/30'
+          }`}
+        />
       )}
     </div>
   )
@@ -531,7 +551,7 @@ export function ExperienceSection() {
         <div ref={mobileRailRef} className="lg:hidden relative">
           {/* scroll-linked background spine */}
           <div
-            className="absolute left-[7.5px] top-3 bottom-6 w-px bg-border-rest/30 pointer-events-none"
+            className="absolute left-[9.5px] top-3 bottom-6 w-px bg-border-rest/30 pointer-events-none"
             aria-hidden="true"
           >
             <m.div
@@ -550,9 +570,21 @@ export function ExperienceSection() {
                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] as const }}
                 className="flex gap-4"
               >
-                <MobileNodeRail />
+                <MobileNodeRail highlighted={hoveredId === 'bsc'} delay={0.1} />
                 <div className="flex-1 pb-2">
-                  <div className="p-4 rounded-lg border border-border-rest bg-surface-low hover:border-border-hover transition-all duration-base">
+                  <m.div
+                    whileHover={{ scale: 1.015 }}
+                    whileTap={{ scale: 0.99 }}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as const }}
+                    onMouseEnter={() => setHoveredId('bsc')}
+                    onMouseLeave={() => setHoveredId(null)}
+                    onClick={() => setHoveredId(prev => (prev === 'bsc' ? null : 'bsc'))}
+                    className={`p-4 rounded-lg border transition-colors duration-300 ${
+                      hoveredId === 'bsc'
+                        ? 'border-text-primary/60 bg-surface-card shadow-[0_12px_32px_rgba(0,0,0,0.55),0_0_20px_rgba(245,245,245,0.06)]'
+                        : 'border-border-rest bg-surface-low'
+                    }`}
+                  >
                     <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                       <span className="label-caps text-text-faint">01 // FOUNDATION</span>
                       <span className="font-mono text-[10px] px-2 py-0.5 rounded-full border border-border-rest bg-surface-card text-text-muted">
@@ -570,7 +602,7 @@ export function ExperienceSection() {
                         COMPLETED
                       </span>
                     </div>
-                  </div>
+                  </m.div>
                 </div>
               </m.div>
             )}
@@ -584,9 +616,21 @@ export function ExperienceSection() {
                 transition={{ duration: 0.4, delay: 0.08, ease: [0.16, 1, 0.3, 1] as const }}
                 className="flex gap-4"
               >
-                <MobileNodeRail />
+                <MobileNodeRail highlighted={hoveredId === 'mca'} delay={0.18} />
                 <div className="flex-1 pb-2">
-                  <div className="p-4 rounded-lg border border-border-rest bg-surface-low hover:border-border-hover transition-all duration-base">
+                  <m.div
+                    whileHover={{ scale: 1.015 }}
+                    whileTap={{ scale: 0.99 }}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as const }}
+                    onMouseEnter={() => setHoveredId('mca')}
+                    onMouseLeave={() => setHoveredId(null)}
+                    onClick={() => setHoveredId(prev => (prev === 'mca' ? null : 'mca'))}
+                    className={`p-4 rounded-lg border transition-colors duration-300 ${
+                      hoveredId === 'mca'
+                        ? 'border-text-primary/60 bg-surface-card shadow-[0_12px_32px_rgba(0,0,0,0.55),0_0_20px_rgba(245,245,245,0.06)]'
+                        : 'border-border-rest bg-surface-low'
+                    }`}
+                  >
                     <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                       <span className="label-caps text-text-faint">02 // SPECIALIZATION</span>
                       <span className="font-mono text-[10px] px-2 py-0.5 rounded-full border border-border-rest bg-surface-card text-text-muted">
@@ -604,7 +648,7 @@ export function ExperienceSection() {
                         {mca.status === 'in-progress' ? 'IN PROGRESS' : 'COMPLETED'}
                       </span>
                     </div>
-                  </div>
+                  </m.div>
                 </div>
               </m.div>
             )}
@@ -618,9 +662,21 @@ export function ExperienceSection() {
                 transition={{ duration: 0.4, delay: 0.16, ease: [0.16, 1, 0.3, 1] as const }}
                 className="flex gap-4"
               >
-                <MobileNodeRail isLast isActive />
+                <MobileNodeRail isLast isActive highlighted={hoveredId === 'exp'} delay={0.26} />
                 <div className="flex-1 pb-2">
-                  <div className="relative p-4 rounded-lg border border-border-hover bg-surface-low hover:border-text-muted/60 transition-all duration-base">
+                  <m.div
+                    whileHover={{ scale: 1.015 }}
+                    whileTap={{ scale: 0.99 }}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as const }}
+                    onMouseEnter={() => setHoveredId('exp')}
+                    onMouseLeave={() => setHoveredId(null)}
+                    onClick={() => setHoveredId(prev => (prev === 'exp' ? null : 'exp'))}
+                    className={`relative p-4 rounded-lg border transition-colors duration-300 ${
+                      hoveredId === 'exp'
+                        ? 'border-text-primary/80 bg-surface-card shadow-[0_14px_36px_rgba(0,0,0,0.65),0_0_24px_rgba(245,245,245,0.09)]'
+                        : 'border-border-hover bg-surface-low'
+                    }`}
+                  >
                     <div
                       className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-border-hover via-text-primary/80 to-border-hover rounded-t-lg"
                       aria-hidden="true"
@@ -649,7 +705,7 @@ export function ExperienceSection() {
                       ))}
                     </div>
                     <DeliveredSystemsList projectIds={exp.projectIds} />
-                  </div>
+                  </m.div>
                 </div>
               </m.div>
             )}
