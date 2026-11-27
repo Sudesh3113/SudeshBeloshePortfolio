@@ -344,11 +344,17 @@ export function ExperienceSection() {
                 <m.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ scale: 1.035, y: -6 }}
                   viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as const }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] as const }}
                   onMouseEnter={() => setHoveredId('bsc')}
                   onMouseLeave={() => setHoveredId(null)}
-                  className="p-5 rounded-lg border border-border-rest bg-surface-low hover:border-text-secondary/60 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(0,0,0,0.55)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-xl origin-bottom"
+                  style={{ transformOrigin: 'bottom center' }}
+                  className={`p-5 rounded-lg border transition-colors duration-300 ${
+                    hoveredId === 'bsc'
+                      ? 'border-text-primary/60 bg-surface-card shadow-[0_20px_50px_rgba(0,0,0,0.65),0_0_24px_rgba(245,245,245,0.06)]'
+                      : 'border-border-rest bg-surface-low shadow-xl'
+                  }`}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
                     <span className="label-caps text-text-faint">01 // FOUNDATION</span>
@@ -387,11 +393,17 @@ export function ExperienceSection() {
                 <m.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ scale: 1.035, y: -6 }}
                   viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] as const }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] as const }}
                   onMouseEnter={() => setHoveredId('exp')}
                   onMouseLeave={() => setHoveredId(null)}
-                  className="relative p-5 rounded-lg border border-border-hover bg-surface-low hover:border-text-primary/70 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(0,0,0,0.65)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-2xl origin-bottom"
+                  style={{ transformOrigin: 'bottom center' }}
+                  className={`relative p-5 rounded-lg border transition-colors duration-300 ${
+                    hoveredId === 'exp'
+                      ? 'border-text-primary/80 bg-surface-card shadow-[0_24px_56px_rgba(0,0,0,0.7),0_0_28px_rgba(245,245,245,0.09)]'
+                      : 'border-border-hover bg-surface-low shadow-2xl'
+                  }`}
                 >
                   <div
                     className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-border-hover via-text-primary/80 to-border-hover rounded-t-lg"
@@ -449,11 +461,17 @@ export function ExperienceSection() {
                 <m.div
                   initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ scale: 1.035, y: 6 }}
                   viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.5, delay: 0.12, ease: [0.16, 1, 0.3, 1] as const }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] as const }}
                   onMouseEnter={() => setHoveredId('mca')}
                   onMouseLeave={() => setHoveredId(null)}
-                  className="p-5 rounded-lg border border-border-rest bg-surface-low hover:border-text-secondary/60 hover:scale-[1.02] hover:translate-y-1 hover:shadow-[0_16px_40px_rgba(0,0,0,0.55)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-xl origin-top"
+                  style={{ transformOrigin: 'top center' }}
+                  className={`p-5 rounded-lg border transition-colors duration-300 ${
+                    hoveredId === 'mca'
+                      ? 'border-text-primary/60 bg-surface-card shadow-[0_20px_50px_rgba(0,0,0,0.65),0_0_24px_rgba(245,245,245,0.06)]'
+                      : 'border-border-rest bg-surface-low shadow-xl'
+                  }`}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
                     <span className="label-caps text-text-faint">02 // SPECIALIZATION</span>
