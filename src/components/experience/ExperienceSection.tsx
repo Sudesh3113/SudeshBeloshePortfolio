@@ -73,81 +73,118 @@ function DeliveredSystemsList({ projectIds }: { projectIds: string[] }) {
   )
 }
 
-/* ───────────── desktop: node ring + stem connector ───────────────── */
+/* ───────────── desktop: S-curve wave with locked nodes ───────────── */
 
-function DesktopMilestoneNode({
-  label,
-  direction,
-  active = false,
-  delay = 0.3,
-}: {
-  label: string
-  direction: 'down' | 'up'
-  active?: boolean
-  delay?: number
-}) {
-  const stem = (
-    <div
-      className={`w-px h-9 ${
-        direction === 'down'
-          ? 'bg-gradient-to-b from-border-hover to-text-muted/70'
-          : 'bg-gradient-to-b from-text-muted/70 to-border-hover'
-      }`}
-    />
-  )
-
-  const ring = (
-    <m.div
-      initial={{ scale: 0, opacity: 0 }}
-      whileInView={{ scale: 1, opacity: 1 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.35, delay, ease: [0.16, 1, 0.3, 1] as const }}
-      className={`relative flex items-center justify-center rounded-full bg-bg transition-all duration-300 group-hover:scale-110 ${
-        active
-          ? 'w-7 h-7 border-2 border-text-primary shadow-[0_0_16px_rgba(245,245,245,0.16)]'
-          : 'w-6 h-6 border-2 border-border-hover group-hover:border-text-primary'
-      }`}
-    >
-      <span
-        className={`rounded-full ${
-          active
-            ? 'w-2 h-2 bg-text-primary animate-pulse-dot'
-            : 'w-2 h-2 bg-text-secondary group-hover:bg-text-primary transition-colors duration-300'
-        }`}
-      />
-    </m.div>
-  )
-
-  const tag = (
-    <span
-      className={`font-mono text-[10px] tracking-widest uppercase ${
-        active ? 'text-text-secondary' : 'text-text-faint'
-      }`}
-    >
-      {label}
-    </span>
-  )
+/**
+ * viewBox 1200 × 104:
+ *   Col 1 center = 15.78% (x = 189, y = 20) — Crest 1
+ *   Col 2 center = 50.00% (x = 600, y = 84) — Trough
+ *   Col 3 center = 84.22% (x = 1011, y = 20) — Crest 2
+ * Every dot and stem is positioned inside this same container so the dots
+ * sit 100% on the SVG Bezier path at every desktop viewport width.
+ */
+function DesktopWaveTrack() {
+  const wavePath =
+    'M 0,52 C 70,52 110,20 189,20 C 330,20 460,84 600,84 C 740,84 870,20 1011,20 C 1090,20 1130,52 1200,52'
 
   return (
-    <div
-      className={`hidden lg:flex flex-col items-center ${
-        direction === 'down' ? 'mt-5' : 'mb-5'
-      }`}
-      aria-hidden="true"
-    >
-      {direction === 'down' ? (
-        <>
-          {stem}
-          {ring}
-          <div className="mt-2">{tag}</div>
-        </>
-      ) : (
-        <>
-          <div className="mb-2">{tag}</div>
-          {ring}
-          {stem}
-        </>
-      )}
+    <div className="hidden lg:block relative w-full h-[104px] pointer-events-none select-none" aria-hidden="true">
+      <svg
+        className="absolute inset-0 w-full h-full overflow-visible"
+        viewBox="0 0 1200 104"
+        preserveAspectRatio="none"
+        fill="none"
+      >
+        <defs>
+          <linearGradient id="expStreamGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#383838" stopOpacity="0.35" />
+            <stop offset="35%" stopColor="#929292" stopOpacity="0.75" />
+            <stop offset="70%" stopColor="#929292" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#F5F5F5" stopOpacity="0.95" />
+          </linearGradient>
+        </defs>
+
+        {/* Subtle Secondary Ghost Dashed Wave */}
+        <path
+          d={wavePath}
+          stroke="#262626"
+          strokeWidth="1"
+          strokeDasharray="4 6"
+          opacity="0.7"
+        />
+
+        {/* Primary Harmonic Bezier Wave — draws in on scroll */}
+        <m.path
+          d={wavePath}
+          stroke="url(#expStreamGradient)"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          initial={{ pathLength: 0, opacity: 0.25 }}
+          whileInView={{ pathLength: 1, opacity: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 1.25, ease: [0.16, 1, 0.3, 1] as const }}
+        />
+      </svg>
+
+      {/* ── Node 01: FOUNDATIONAL (on Crest 1: left 15.78%, top 20px) ── */}
+      <div
+        className="absolute top-0 bottom-0 -translate-x-1/2 flex flex-col items-center"
+        style={{ left: '15.78%' }}
+      >
+        <div className="w-px h-[20px] bg-gradient-to-b from-border-hover to-text-muted/70" />
+        <m.div
+          initial={{ scale: 0, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.35, delay: 0.25, ease: [0.16, 1, 0.3, 1] as const }}
+          className="-mt-3 flex items-center justify-center w-6 h-6 rounded-full bg-bg border-2 border-border-hover"
+        >
+          <span className="w-2 h-2 rounded-full bg-text-secondary" />
+        </m.div>
+        <span className="mt-2 font-mono text-[10px] tracking-widest text-text-faint uppercase">
+          FOUNDATIONAL
+        </span>
+      </div>
+
+      {/* ── Node 02: POSTGRADUATE (on Trough: left 50%, top 84px) ── */}
+      <div
+        className="absolute top-0 bottom-0 -translate-x-1/2 flex flex-col items-center justify-end"
+        style={{ left: '50%' }}
+      >
+        <span className="mb-2 font-mono text-[10px] tracking-widest text-text-faint uppercase">
+          POSTGRADUATE
+        </span>
+        <m.div
+          initial={{ scale: 0, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.35, delay: 0.55, ease: [0.16, 1, 0.3, 1] as const }}
+          className="-mb-3 relative z-10 flex items-center justify-center w-6 h-6 rounded-full bg-bg border-2 border-border-hover"
+        >
+          <span className="w-2 h-2 rounded-full bg-text-secondary" />
+        </m.div>
+        <div className="w-px h-[20px] bg-gradient-to-b from-text-muted/70 to-border-hover" />
+      </div>
+
+      {/* ── Node 03: COMMERCIAL (on Crest 2: left 84.22%, top 20px) ── */}
+      <div
+        className="absolute top-0 bottom-0 -translate-x-1/2 flex flex-col items-center"
+        style={{ left: '84.22%' }}
+      >
+        <div className="w-px h-[20px] bg-gradient-to-b from-border-hover to-text-primary/80" />
+        <m.div
+          initial={{ scale: 0, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.35, delay: 0.85, ease: [0.16, 1, 0.3, 1] as const }}
+          className="-mt-3.5 flex items-center justify-center w-7 h-7 rounded-full bg-bg border-2 border-text-primary shadow-[0_0_16px_rgba(245,245,245,0.16)]"
+        >
+          <span className="w-2 h-2 rounded-full bg-text-primary animate-pulse-dot" />
+        </m.div>
+        <span className="mt-2 font-mono text-[10px] tracking-widest text-text-secondary uppercase">
+          COMMERCIAL
+        </span>
+      </div>
     </div>
   )
 }
@@ -216,7 +253,7 @@ export function ExperienceSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as const }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 mb-8 border-b border-border-rest"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 mb-10 border-b border-border-rest"
         >
           <div>
             <SectionTag index="04" label="CHRONOLOGY & FOUNDATION" pulse className="mb-4" />
@@ -240,63 +277,20 @@ export function ExperienceSection() {
           </div>
         </m.div>
 
-        {/* ── Desktop Staggered 3-Column S-Curve Composition ── */}
-        <div className="hidden lg:block relative pt-8 pb-6">
-          {/* Ambient S-Curve SVG Vector Connector sweeping behind the 3 columns */}
-          <div
-            className="absolute inset-x-0 top-[54%] -translate-y-1/2 pointer-events-none z-0"
-            aria-hidden="true"
-          >
-            <svg
-              className="w-full h-44 overflow-visible"
-              viewBox="0 0 1200 160"
-              preserveAspectRatio="none"
-              fill="none"
-            >
-              <defs>
-                <linearGradient id="expStreamGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#383838" stopOpacity="0.35" />
-                  <stop offset="35%" stopColor="#929292" stopOpacity="0.7" />
-                  <stop offset="70%" stopColor="#929292" stopOpacity="0.9" />
-                  <stop offset="100%" stopColor="#F5F5F5" stopOpacity="0.95" />
-                </linearGradient>
-              </defs>
-
-              {/* Subtle Secondary Ghost Dashed Wave */}
-              <path
-                d="M 0,80 C 200,80 200,30 400,30 C 600,30 600,130 800,130 C 1000,130 1000,80 1200,80"
-                stroke="#262626"
-                strokeWidth="1"
-                strokeDasharray="4 6"
-                opacity="0.75"
-              />
-
-              {/* Primary Harmonic Bezier Wave — draws in on scroll */}
-              <m.path
-                d="M 0,80 C 180,80 220,25 390,25 C 570,25 610,135 790,135 C 970,135 1020,80 1200,80"
-                stroke="url(#expStreamGradient)"
-                strokeWidth="1.75"
-                strokeLinecap="round"
-                initial={{ pathLength: 0, opacity: 0.25 }}
-                whileInView={{ pathLength: 1, opacity: 1 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 1.25, ease: [0.16, 1, 0.3, 1] as const }}
-              />
-            </svg>
-          </div>
-
-          {/* 3-Column Staggered Grid */}
-          <div className="grid grid-cols-3 gap-8 relative z-10 items-start">
-            {/* ── 01 // FOUNDATION (B.Sc. CS) — Top-aligned ── */}
-            {bsc && (
-              <m.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as const }}
-                className="group flex flex-col -translate-y-4"
-              >
-                <div className="p-6 rounded-lg border border-border-rest bg-surface-low/95 backdrop-blur-sm hover:border-border-hover hover:-translate-y-0.5 transition-all duration-base shadow-xl">
+        {/* ── Desktop 3-Column S-Curve Composition ── */}
+        <div className="hidden lg:block">
+          {/* Top Row: Col 1 (B.Sc.) and Col 3 (Industry) bottom-aligned flush to the wave stems */}
+          <div className="grid grid-cols-3 gap-8 items-end">
+            {/* Col 1 — 01 // FOUNDATION */}
+            <div>
+              {bsc && (
+                <m.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as const }}
+                  className="p-5 rounded-lg border border-border-rest bg-surface-low hover:border-border-hover hover:-translate-y-0.5 transition-all duration-base shadow-xl"
+                >
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
                     <span className="label-caps text-text-faint">01 // FOUNDATION</span>
                     <span className="font-mono text-[10px] px-2.5 py-0.5 rounded-full border border-border-rest bg-surface-card text-text-muted">
@@ -305,7 +299,7 @@ export function ExperienceSection() {
                   </div>
 
                   <h3
-                    className="font-sans font-semibold text-text-primary mb-1.5 group-hover:text-white transition-colors"
+                    className="font-sans font-semibold text-text-primary mb-1"
                     style={{ fontSize: 'var(--text-headline-sm)' }}
                   >
                     {bsc.degree} {bsc.field}
@@ -313,7 +307,7 @@ export function ExperienceSection() {
                   <p className="font-sans text-[13px] text-text-secondary mb-1">{bsc.institution}</p>
                   <p className="font-mono text-[11px] text-text-muted mb-5">{bsc.location}</p>
 
-                  <div className="pt-3.5 border-t border-border-rest flex items-center justify-between">
+                  <div className="pt-3 border-t border-border-rest flex items-center justify-between">
                     <span className="font-mono text-[10px] uppercase tracking-wider text-text-faint">
                       UNDERGRADUATE
                     </span>
@@ -321,69 +315,29 @@ export function ExperienceSection() {
                       COMPLETED
                     </span>
                   </div>
-                </div>
+                </m.div>
+              )}
+            </div>
 
-                <DesktopMilestoneNode label="FOUNDATIONAL" direction="down" delay={0.3} />
-              </m.div>
-            )}
+            {/* Col 2 — Empty on top row */}
+            <div />
 
-            {/* ── 02 // SPECIALIZATION (MCA) — Staggered lower ── */}
-            {mca && (
-              <m.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, delay: 0.12, ease: [0.16, 1, 0.3, 1] as const }}
-                className="group flex flex-col mt-16"
-              >
-                <DesktopMilestoneNode label="POSTGRADUATE" direction="up" delay={0.55} />
-
-                <div className="p-6 rounded-lg border border-border-rest bg-surface-low/95 backdrop-blur-sm hover:border-border-hover hover:-translate-y-0.5 transition-all duration-base shadow-xl">
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-                    <span className="label-caps text-text-faint">02 // SPECIALIZATION</span>
-                    <span className="font-mono text-[10px] px-2.5 py-0.5 rounded-full border border-border-rest bg-surface-card text-text-muted">
-                      {mca.startYear} – {mca.endYear}
-                    </span>
-                  </div>
-
-                  <h3
-                    className="font-sans font-semibold text-text-primary mb-1.5 group-hover:text-white transition-colors"
-                    style={{ fontSize: 'var(--text-headline-sm)' }}
-                  >
-                    {mca.field} ({mca.degree})
-                  </h3>
-                  <p className="font-sans text-[13px] text-text-secondary mb-1">{mca.institution}</p>
-                  <p className="font-mono text-[11px] text-text-muted mb-5">{mca.location}</p>
-
-                  <div className="pt-3.5 border-t border-border-rest flex items-center justify-between">
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-text-faint">
-                      MASTER DEGREE
-                    </span>
-                    <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-surface-high text-text-secondary border border-border-hover">
-                      {mca.status === 'in-progress' ? 'IN PROGRESS' : 'COMPLETED'}
-                    </span>
-                  </div>
-                </div>
-              </m.div>
-            )}
-
-            {/* ── 03 // INDUSTRY (Neuro Spark Works) — Top-aligned ── */}
-            {exp && (
-              <m.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, delay: 0.22, ease: [0.16, 1, 0.3, 1] as const }}
-                className="group flex flex-col -translate-y-4"
-              >
-                <div className="relative p-6 rounded-lg border border-border-hover bg-surface-low/95 backdrop-blur-sm hover:border-text-muted/60 hover:-translate-y-0.5 transition-all duration-base shadow-2xl">
-                  {/* Subtle monochrome top highlight bar */}
+            {/* Col 3 — 03 // INDUSTRY */}
+            <div>
+              {exp && (
+                <m.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] as const }}
+                  className="relative p-5 rounded-lg border border-border-hover bg-surface-low hover:border-text-muted/60 hover:-translate-y-0.5 transition-all duration-base shadow-2xl"
+                >
                   <div
                     className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-border-hover via-text-primary/80 to-border-hover rounded-t-lg"
                     aria-hidden="true"
                   />
 
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3.5">
                     <span className="label-caps text-text-muted">03 // INDUSTRY</span>
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-border-hover bg-surface-high">
                       <span className="w-1.5 h-1.5 rounded-full bg-text-primary animate-pulse-dot" aria-hidden="true" />
@@ -399,7 +353,7 @@ export function ExperienceSection() {
                   >
                     {exp.role}
                   </h3>
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-3.5">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-3">
                     <p className="font-sans text-[13px] font-medium text-text-secondary">{exp.company}</p>
                     <span className="inline-flex items-center gap-1 font-mono text-[10px] text-text-muted">
                       <MapPin size={10} />
@@ -407,7 +361,7 @@ export function ExperienceSection() {
                     </span>
                   </div>
 
-                  <p className="font-sans text-[13px] text-text-secondary leading-relaxed mb-4">
+                  <p className="font-sans text-[13px] text-text-secondary leading-relaxed mb-3.5">
                     {exp.description}
                   </p>
 
@@ -418,11 +372,54 @@ export function ExperienceSection() {
                   </div>
 
                   <DeliveredSystemsList projectIds={exp.projectIds} />
-                </div>
+                </m.div>
+              )}
+            </div>
+          </div>
 
-                <DesktopMilestoneNode label="COMMERCIAL" direction="down" active delay={0.8} />
-              </m.div>
-            )}
+          {/* Middle Row: S-Curve Wave with 3 Milestone Dots locked directly onto the path */}
+          <DesktopWaveTrack />
+
+          {/* Bottom Row: Col 2 (MCA) flush below Node 02's stem */}
+          <div className="grid grid-cols-3 gap-8">
+            <div />
+            <div>
+              {mca && (
+                <m.div
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.5, delay: 0.12, ease: [0.16, 1, 0.3, 1] as const }}
+                  className="p-5 rounded-lg border border-border-rest bg-surface-low hover:border-border-hover hover:-translate-y-0.5 transition-all duration-base shadow-xl"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+                    <span className="label-caps text-text-faint">02 // SPECIALIZATION</span>
+                    <span className="font-mono text-[10px] px-2.5 py-0.5 rounded-full border border-border-rest bg-surface-card text-text-muted">
+                      {mca.startYear} – {mca.endYear}
+                    </span>
+                  </div>
+
+                  <h3
+                    className="font-sans font-semibold text-text-primary mb-1"
+                    style={{ fontSize: 'var(--text-headline-sm)' }}
+                  >
+                    {mca.field} ({mca.degree})
+                  </h3>
+                  <p className="font-sans text-[13px] text-text-secondary mb-1">{mca.institution}</p>
+                  <p className="font-mono text-[11px] text-text-muted mb-5">{mca.location}</p>
+
+                  <div className="pt-3 border-t border-border-rest flex items-center justify-between">
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-text-faint">
+                      MASTER DEGREE
+                    </span>
+                    <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-surface-high text-text-secondary border border-border-hover">
+                      {mca.status === 'in-progress' ? 'IN PROGRESS' : 'COMPLETED'}
+                    </span>
+                  </div>
+                </m.div>
+              )}
+            </div>
+            <div />
           </div>
 
           {/* Subtle Editorial Telemetry Footer Bar */}
@@ -431,7 +428,7 @@ export function ExperienceSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.45, delay: 0.25, ease: [0.16, 1, 0.3, 1] as const }}
-            className="mt-8 px-5 py-3 rounded-lg border border-border-rest bg-surface-low flex items-center justify-between gap-4"
+            className="mt-10 px-5 py-3 rounded-lg border border-border-rest bg-surface-low flex items-center justify-between gap-4"
           >
             <div className="flex items-center gap-3">
               <span className="font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded border border-border-hover bg-surface-card text-text-secondary">
