@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion'
-import { MapPin, ArrowUpRight } from 'lucide-react'
+import { m } from 'framer-motion'
+import { MapPin, ArrowUpRight, ArrowUp } from 'lucide-react'
 import { GitHubIcon, LinkedInIcon } from '../ui/BrandIcons'
 import { Container } from '../layout/Container'
 import { SectionTag } from '../layout/SectionHeading'
@@ -15,7 +15,7 @@ export function Contact() {
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* Left — identity */}
-          <motion.div
+          <m.div
             className="lg:col-span-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -34,7 +34,7 @@ export function Contact() {
               {profile.role}
             </p>
 
-            <div className="p-4 rounded-lg border border-border-rest bg-surface-low">
+            <div className="p-4 rounded-lg border border-border-rest bg-surface-low hover:border-border-hover transition-colors duration-fast">
               <div className="flex items-center gap-2 mb-1">
                 <MapPin size={12} className="text-text-muted" />
                 <span className="label-caps">{profile.location}</span>
@@ -44,10 +44,10 @@ export function Contact() {
                 <span className="font-mono text-[12px] text-text-secondary">{profile.availability}</span>
               </div>
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Center — directory */}
-          <motion.div
+          <m.div
             className="lg:col-span-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -73,18 +73,23 @@ export function Contact() {
                   }}
                   className="flex items-center gap-3 py-2.5 border-b border-border-rest group hover:border-border-hover transition-colors duration-fast"
                 >
-                  <span className="font-mono text-[11px] text-text-faint w-5">{item.n}</span>
-                  <span className="font-sans text-[14px] text-text-secondary group-hover:text-text-primary transition-colors duration-fast">
+                  <span className="font-mono text-[11px] text-text-faint w-5 transition-colors duration-fast group-hover:text-text-muted">
+                    {item.n}
+                  </span>
+                  <span className="font-sans text-[14px] text-text-secondary group-hover:text-text-primary group-hover:translate-x-1 transition-all duration-fast">
                     {item.label}
                   </span>
-                  <ArrowUpRight size={12} className="ml-auto text-text-faint opacity-0 group-hover:opacity-100 transition-opacity duration-fast" />
+                  <ArrowUpRight
+                    size={12}
+                    className="ml-auto text-text-faint opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-fast"
+                  />
                 </a>
               ))}
             </nav>
-          </motion.div>
+          </m.div>
 
           {/* Right — connect */}
-          <motion.div
+          <m.div
             className="lg:col-span-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -98,7 +103,7 @@ export function Contact() {
               {profile.email ? (
                 <a
                   href={`mailto:${profile.email}`}
-                  className="flex items-center justify-between p-4 rounded-lg border border-border-rest bg-surface-low hover:border-border-hover transition-colors duration-fast group"
+                  className="flex items-center justify-between p-4 rounded-lg border border-border-rest bg-surface-low hover:border-border-hover active:scale-[0.99] transition-all duration-fast group"
                 >
                   <div>
                     <p className="label-caps text-text-faint mb-0.5">EMAIL</p>
@@ -106,7 +111,10 @@ export function Contact() {
                       {profile.email}
                     </p>
                   </div>
-                  <ArrowUpRight size={14} className="text-text-muted group-hover:text-text-primary transition-colors" />
+                  <ArrowUpRight
+                    size={14}
+                    className="text-text-muted group-hover:text-text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-fast"
+                  />
                 </a>
               ) : (
                 <div className="flex items-center justify-between p-4 rounded-lg border border-border-rest bg-surface-low opacity-50">
@@ -122,16 +130,22 @@ export function Contact() {
                 href={profile.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 p-4 rounded-lg border border-border-rest bg-surface-low hover:border-border-hover transition-colors duration-fast group"
+                className="flex items-center gap-3 p-4 rounded-lg border border-border-rest bg-surface-low hover:border-border-hover active:scale-[0.99] transition-all duration-fast group"
               >
-                <GitHubIcon size={16} className="text-text-muted group-hover:text-text-primary transition-colors shrink-0" />
+                <GitHubIcon
+                  size={16}
+                  className="text-text-muted group-hover:text-text-primary group-hover:scale-105 transition-all duration-fast shrink-0"
+                />
                 <div className="flex-1 min-w-0">
                   <p className="label-caps text-text-faint mb-0.5">GITHUB</p>
                   <p className="font-mono text-[12px] text-text-secondary group-hover:text-text-primary transition-colors truncate">
                     github.com/Sudesh3113
                   </p>
                 </div>
-                <ArrowUpRight size={14} className="text-text-muted group-hover:text-text-primary transition-colors shrink-0" />
+                <ArrowUpRight
+                  size={14}
+                  className="text-text-muted group-hover:text-text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-fast shrink-0"
+                />
               </a>
 
               {/* LinkedIn */}
@@ -139,19 +153,25 @@ export function Contact() {
                 href={profile.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 p-4 rounded-lg border border-border-rest bg-surface-low hover:border-border-hover transition-colors duration-fast group"
+                className="flex items-center gap-3 p-4 rounded-lg border border-border-rest bg-surface-low hover:border-border-hover active:scale-[0.99] transition-all duration-fast group"
               >
-                <LinkedInIcon size={16} className="text-text-muted group-hover:text-text-primary transition-colors shrink-0" />
+                <LinkedInIcon
+                  size={16}
+                  className="text-text-muted group-hover:text-text-primary group-hover:scale-105 transition-all duration-fast shrink-0"
+                />
                 <div className="flex-1 min-w-0">
                   <p className="label-caps text-text-faint mb-0.5">LINKEDIN</p>
                   <p className="font-mono text-[12px] text-text-secondary group-hover:text-text-primary transition-colors truncate">
                     linkedin.com/in/sudesh-beloshe
                   </p>
                 </div>
-                <ArrowUpRight size={14} className="text-text-muted group-hover:text-text-primary transition-colors shrink-0" />
+                <ArrowUpRight
+                  size={14}
+                  className="text-text-muted group-hover:text-text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-fast shrink-0"
+                />
               </a>
             </div>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* Bottom bar */}
@@ -163,10 +183,15 @@ export function Contact() {
             See you around.
           </p>
           <button
+            type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border-rest text-[13px] font-mono text-text-secondary hover:text-text-primary hover:border-border-hover transition-colors duration-fast"
+            className="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border-rest text-[13px] font-mono text-text-secondary hover:text-text-primary hover:border-border-hover active:scale-[0.98] transition-all duration-fast"
           >
-            Back to Top ↑
+            <span>Back to Top</span>
+            <ArrowUp
+              size={13}
+              className="transition-transform duration-fast group-hover:-translate-y-0.5"
+            />
           </button>
         </div>
       </Container>

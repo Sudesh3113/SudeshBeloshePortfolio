@@ -1,3 +1,4 @@
+import { LazyMotion, MotionConfig, domAnimation } from 'framer-motion'
 import './styles/globals.css'
 import { Navbar } from './components/layout/Navbar'
 import { Hero } from './components/hero/Hero'
@@ -9,17 +10,19 @@ import { PanoramaFooter } from './components/footer/PanoramaFooter'
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <main>
-        <Hero />
-        <TechStack />
-        <Projects />
-        <ExperienceSection />
-        <Contact />
-      </main>
-      <PanoramaFooter />
-    </>
+    <LazyMotion features={domAnimation} strict>
+      <MotionConfig reducedMotion="user">
+        <Navbar />
+        <main>
+          <Hero />
+          <TechStack />
+          <Projects />
+          <ExperienceSection />
+          <Contact />
+        </main>
+        <PanoramaFooter />
+      </MotionConfig>
+    </LazyMotion>
   )
 }
 

@@ -20,6 +20,10 @@ html {
   overflow-x: hidden;
 }
 
+section[id] {
+  scroll-margin-top: 6rem;
+}
+
 body {
   font-family: var(--font-sans);
   font-size: var(--text-body-md);
