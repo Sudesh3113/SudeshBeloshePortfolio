@@ -29,7 +29,10 @@ function DeliveredSystemsList({ projectIds }: { projectIds: string[] }) {
     <div className="pt-3.5 mt-3.5 border-t border-border-rest">
       <button
         type="button"
-        onClick={() => setOpen(prev => !prev)}
+        onClick={e => {
+          e.stopPropagation()
+          setOpen(prev => !prev)
+        }}
         aria-expanded={open}
         className="w-full flex items-center justify-between gap-2 text-left group/btn"
       >
@@ -298,6 +301,7 @@ function MobileNodeRail({
 
 export function ExperienceSection() {
   const [hoveredId, setHoveredId] = useState<MilestoneId>(null)
+  const [selectedMobileId, setSelectedMobileId] = useState<MilestoneId>(null)
   const mobileRailRef = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress: mobileProgress } = useScroll({
@@ -570,18 +574,16 @@ export function ExperienceSection() {
                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] as const }}
                 className="flex gap-4"
               >
-                <MobileNodeRail highlighted={hoveredId === 'bsc'} delay={0.1} />
+                <MobileNodeRail highlighted={selectedMobileId === 'bsc'} delay={0.1} />
                 <div className="flex-1 pb-2">
                   <m.div
-                    whileHover={{ scale: 1.015 }}
-                    whileTap={{ scale: 0.99 }}
+                    animate={{ scale: selectedMobileId === 'bsc' ? 1.025 : 1 }}
+                    whileTap={{ scale: 0.985 }}
                     transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as const }}
-                    onMouseEnter={() => setHoveredId('bsc')}
-                    onMouseLeave={() => setHoveredId(null)}
-                    onClick={() => setHoveredId(prev => (prev === 'bsc' ? null : 'bsc'))}
-                    className={`p-4 rounded-lg border transition-colors duration-300 ${
-                      hoveredId === 'bsc'
-                        ? 'border-text-primary/60 bg-surface-card shadow-[0_12px_32px_rgba(0,0,0,0.55),0_0_20px_rgba(245,245,245,0.06)]'
+                    onClick={() => setSelectedMobileId(prev => (prev === 'bsc' ? null : 'bsc'))}
+                    className={`cursor-pointer p-4 rounded-lg border transition-colors duration-300 ${
+                      selectedMobileId === 'bsc'
+                        ? 'border-text-primary/70 bg-surface-card shadow-[0_14px_36px_rgba(0,0,0,0.6),0_0_24px_rgba(245,245,245,0.08)]'
                         : 'border-border-rest bg-surface-low'
                     }`}
                   >
@@ -616,18 +618,16 @@ export function ExperienceSection() {
                 transition={{ duration: 0.4, delay: 0.08, ease: [0.16, 1, 0.3, 1] as const }}
                 className="flex gap-4"
               >
-                <MobileNodeRail highlighted={hoveredId === 'mca'} delay={0.18} />
+                <MobileNodeRail highlighted={selectedMobileId === 'mca'} delay={0.18} />
                 <div className="flex-1 pb-2">
                   <m.div
-                    whileHover={{ scale: 1.015 }}
-                    whileTap={{ scale: 0.99 }}
+                    animate={{ scale: selectedMobileId === 'mca' ? 1.025 : 1 }}
+                    whileTap={{ scale: 0.985 }}
                     transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as const }}
-                    onMouseEnter={() => setHoveredId('mca')}
-                    onMouseLeave={() => setHoveredId(null)}
-                    onClick={() => setHoveredId(prev => (prev === 'mca' ? null : 'mca'))}
-                    className={`p-4 rounded-lg border transition-colors duration-300 ${
-                      hoveredId === 'mca'
-                        ? 'border-text-primary/60 bg-surface-card shadow-[0_12px_32px_rgba(0,0,0,0.55),0_0_20px_rgba(245,245,245,0.06)]'
+                    onClick={() => setSelectedMobileId(prev => (prev === 'mca' ? null : 'mca'))}
+                    className={`cursor-pointer p-4 rounded-lg border transition-colors duration-300 ${
+                      selectedMobileId === 'mca'
+                        ? 'border-text-primary/70 bg-surface-card shadow-[0_14px_36px_rgba(0,0,0,0.6),0_0_24px_rgba(245,245,245,0.08)]'
                         : 'border-border-rest bg-surface-low'
                     }`}
                   >
@@ -662,18 +662,16 @@ export function ExperienceSection() {
                 transition={{ duration: 0.4, delay: 0.16, ease: [0.16, 1, 0.3, 1] as const }}
                 className="flex gap-4"
               >
-                <MobileNodeRail isLast isActive highlighted={hoveredId === 'exp'} delay={0.26} />
+                <MobileNodeRail isLast isActive highlighted={selectedMobileId === 'exp'} delay={0.26} />
                 <div className="flex-1 pb-2">
                   <m.div
-                    whileHover={{ scale: 1.015 }}
-                    whileTap={{ scale: 0.99 }}
+                    animate={{ scale: selectedMobileId === 'exp' ? 1.025 : 1 }}
+                    whileTap={{ scale: 0.985 }}
                     transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as const }}
-                    onMouseEnter={() => setHoveredId('exp')}
-                    onMouseLeave={() => setHoveredId(null)}
-                    onClick={() => setHoveredId(prev => (prev === 'exp' ? null : 'exp'))}
-                    className={`relative p-4 rounded-lg border transition-colors duration-300 ${
-                      hoveredId === 'exp'
-                        ? 'border-text-primary/80 bg-surface-card shadow-[0_14px_36px_rgba(0,0,0,0.65),0_0_24px_rgba(245,245,245,0.09)]'
+                    onClick={() => setSelectedMobileId(prev => (prev === 'exp' ? null : 'exp'))}
+                    className={`cursor-pointer relative p-4 rounded-lg border transition-colors duration-300 ${
+                      selectedMobileId === 'exp'
+                        ? 'border-text-primary/85 bg-surface-card shadow-[0_16px_40px_rgba(0,0,0,0.68),0_0_28px_rgba(245,245,245,0.1)]'
                         : 'border-border-hover bg-surface-low'
                     }`}
                   >
